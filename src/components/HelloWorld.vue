@@ -1,16 +1,25 @@
 <template>
-  <div class="container">
-        <p id="mainText">{{ currentScene.text}}</p>
-        <div id="option-buttons" class="button-grid">
-            <button @click="changeScene(scene)" v-for="(scene,index) in currentScene.options" :key="index" v-show="showOption(scene)" class="btn"> {{ scene.text }}</button>
+  <div >
+    <div id="diceBox">
+        <div id="diceContainer" >
+            <div :class="{rollDice: rolling, die: true}">
+                <p class="dieText">{{ diceNum }}</p>
+            </div>
         </div>
+        <button @click="rollDice">roll dice</button>
+    </div>
+    <p class="container" id="mainText">{{ currentScene.text}}</p>
+    <div id="option-buttons" class="button-grid">
+        <button @click="changeScene(scene)" v-for="(scene,index) in currentScene.options" :key="index" v-show="showOption(scene)" class="btn"> {{ scene.text }}</button>
+    </div>
 
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'HelloWorld',
+  name: 'StoryBox',
   props: {
   },
   methods:{
@@ -18,9 +27,9 @@ export default {
       if (scene.died){
         this.Character = {health:20,AC:16,gold:10}
       }
-      if (scene.dc){
-        //dice roll
-      }
+    //   if (scene.dc){
+        
+    //   }
       if (scene.setCharacter){
         this.Character = Object.assign(this.Character, scene.setCharacter)
       }
@@ -31,11 +40,27 @@ export default {
     showOption(scene){
       return scene.requiredCharacter == null || scene.requiredCharacter(this.Character)
     },
+    rollDice(){
+        this.rolling = true
+        const minInclusive = 1;
+        const maxInclusive = 20;
+        const randomInclusive = Math.floor(Math.random() * (maxInclusive - minInclusive + 1)) + minInclusive;
+        setTimeout(() => {
+            this.diceNum = randomInclusive
+        }, 900); // 1500 milliseconds = 1.5 second
+        setTimeout(() => {
+            this.rolling = false
+        }, 3000); // 3000 milliseconds = 3 second
+
+
+    }
   },
   data(){
         return {
           Character : {health: 20,AC: 16,gold: 10},
           Inventory : {},
+          diceNum: 20,
+          rolling:false,
           lastSceneID:0,
           currentScene: {
               id:0,
@@ -162,7 +187,8 @@ export default {
               options: [
                 {
                         text: 'Roll Dice',
-                        nextScene: 1.7
+                        nextScene: 1.0,
+                        dc:10
                     },
               ]
           }
@@ -174,8 +200,41 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#diceBox{
+    display: flex;
+    justify-content: center;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+#diceContainer{
+    height: 200px;
+}
 #mainText{
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.rollDice{
+    transform: rotate(2160deg);
+    transition-duration: 3s;
+    
+}
+.die{
+    background-image: url('../../public/d20-red-trans (1).png') ;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 130px;
+    height: 130px;
+    color: white;
+    font-family: sans-serif;
+    font-size: large;
+    text-align: center;
+}
+.dieText{
+    color: white;
+    font-family: sans-serif;
+    font-size: large;
+    text-align: center;
+    padding-top: 40%;
 }
 .container{
     width: 800px;

@@ -1,13 +1,17 @@
 <template>
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+  
+    <StoryBox></StoryBox>
+  </div>
 </template>
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import StoryBox from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    StoryBox,
+   
   }
 }
 </script>
