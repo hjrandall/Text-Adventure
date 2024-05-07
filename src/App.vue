@@ -1,11 +1,10 @@
 <template>
   <div>
-  
     <StoryBox></StoryBox>
   </div>
 </template>
 <script>
-import StoryBox from './components/HelloWorld.vue'
+import StoryBox from './components/StoryBox.vue'
 
 export default {
   name: 'App',

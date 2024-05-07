@@ -1,65 +1,121 @@
 <template>
   <div >
-    <div id="diceBox">
-        <div id="diceContainer" >
-            <div :class="{rollDice: rolling, die: true}">
-                <p class="dieText">{{ diceNum }}</p>
+    <characterSheet
+        :character="character"
+        :inventory="Inventory"
+        ></characterSheet>
+    <div class="Main-body">
+        <div  id="diceBox" >
+            <video id="myVideo" class="success1" >
+                <source src="/success.webm" type="video/webm">
+            </video>
+            <video id="myVideo2" class="failure1" >
+                <source src="/failure.webm" type="video/webm">
+            </video>
+            <div v-show="currentScene.options[0].dc" id="diceContainer" >
+                <div :class="{rollDice: rolling,staticDice:true, die: true}">
+                    <p class="dieText">{{ diceNum }}</p>
+                </div>
             </div>
         </div>
-        <button @click="rollDice">roll dice</button>
-    </div>
-    <p class="container" id="mainText">{{ currentScene.text}}</p>
-    <div id="option-buttons" class="button-grid">
-        <button @click="changeScene(scene)" v-for="(scene,index) in currentScene.options" :key="index" v-show="showOption(scene)" class="btn"> {{ scene.text }}</button>
+        <p class="container" id="mainText">{{ currentScene.text}}</p>
+        <div id="option-buttons" class="button-grid">
+            <button @click="changeScene(scene)" v-for="(scene,index) in currentScene.options" :key="index" v-show="showOption(scene)" class="btn"> {{ scene.text }}</button>
+        </div>
     </div>
 
   </div>
 </template>
 
 <script>
+import characterSheet from './Header.vue'
 
 export default {
   name: 'StoryBox',
+  components:{
+    characterSheet
+  },
   props: {
   },
   methods:{
-    changeScene(scene){
-      if (scene.died){
+   async changeScene(scene){
+        var dcCheck
+        var nextsceneID =scene.nextScene
+        if (scene.dc){
+            dcCheck = await this.rollDice(scene.dc)
+            if (dcCheck){
+                nextsceneID = scene.nextScene[0]
+        }else{
+            nextsceneID = scene.nextScene[1]
+        }
+    }
+    if (scene.died){
         this.Character = {health:20,AC:16,gold:10}
-      }
-    //   if (scene.dc){
-        
-    //   }
-      if (scene.setCharacter){
+    }
+    if (scene.setCharacter){
         this.Character = Object.assign(this.Character, scene.setCharacter)
-      }
-      this.lastSceneID = this.currentScene.id
-      this.currentScene = this.sceneNodes.find(sceneNode => sceneNode.id === scene.nextScene)
+    }
+    if (scene.nextScene == 0.1){
+        scene.nextScene = this.lastSceneID
+    }
+        
+        this.lastSceneID = this.currentScene.id
+        this.currentScene = this.sceneNodes.find(sceneNode => sceneNode.id === nextsceneID)
+        this.rolling = false
+        this.diceNum = 20
 
     },
     showOption(scene){
       return scene.requiredCharacter == null || scene.requiredCharacter(this.Character)
     },
-    rollDice(){
+    async rollDice(dc){
         this.rolling = true
+        this.diceNum = null
         const minInclusive = 1;
         const maxInclusive = 20;
         const randomInclusive = Math.floor(Math.random() * (maxInclusive - minInclusive + 1)) + minInclusive;
-        setTimeout(() => {
-            this.diceNum = randomInclusive
-        }, 900); // 1500 milliseconds = 1.5 second
-        setTimeout(() => {
-            this.rolling = false
-        }, 3000); // 3000 milliseconds = 3 second
+        await this.timeout(3000);
+        this.diceNum = randomInclusive
+        await this.timeout(1400);
+        var dcCheck = false
+        if (dc[0]== "player AC"){
+            if (randomInclusive <= (dc[1] + this.Character.AC)){
+                dcCheck = true
+                
+                let vid = document.getElementById("myVideo");
+                vid.play()
+            }else{
+                let vid = document.getElementById("myVideo2");
+                vid.play()
+            }
+        }
+        else{
+             if (randomInclusive >= dc[1]){
+                dcCheck =true
 
-
-    }
-  },
+                let vid = document.getElementById("myVideo");
+                vid.play()
+            }
+            else{
+                let vid = document.getElementById("myVideo2");
+                vid.play()
+            }
+        }
+        
+        await this.timeout(2500);
+        return dcCheck
+    },
+    timeout(ms) {
+       return new Promise(resolve => setTimeout(resolve, ms));
+},
+},
   data(){
         return {
-          Character : {health: 20,AC: 16,gold: 10},
-          Inventory : {},
+          Character : {maxHealth: 20,currentHealth:20,AC: 16,},
+          Inventory : {gold: 10},
           diceNum: 20,
+          success:false,
+          failure:false,
           rolling:false,
           lastSceneID:0,
           currentScene: {
@@ -100,11 +156,11 @@ export default {
               {
                       text: 'Restart from begining',
                       died: true,
-                      nextScene: 1.0
+                      nextScene: 1.1
                   },
                   {
                       text: 'Restart from last choice',
-                      nextScene: this.lastSceneID
+                      nextScene: 0.1
                   },
 
               ]
@@ -151,44 +207,64 @@ export default {
               options: [
                   {
                       text: 'Take cover',
-                      nextScene: 1.5,
-                      dc:  ("player AC", 2)
+                      nextScene: [1.5,1.6],
+                      dc:  ["player AC", 2]
                   },
                   {
                       text: 'Stand out on the edge of the ship like a man and let them take their shot',
-                      nextScene: 1.5,
-                      dc: ("player AC", 0)
+                      nextScene: [1.5,1.6],
+                      dc: ["player AC", 0]
                   },
               ]
           },
           {
               id:1.5,
-              text: 'Your town is unable hit you before you disapear over the horizon',
+              text: 'Your town is unable to hit you before you disapear over the horizon',
               options: [
                 {
                         text: 'Continue',
-                        nextScene: 1.6
-                    },
-              ]
-          },
-          {
-              id:1.5,
-              text: 'Your town is able hit you before you disapear over the horizon dealing some damage',
-              options: [
-                {
-                        text: 'Continue',
-                        nextScene: 1.6
+                        nextScene: 1.7
                     },
               ]
           },
           {
               id:1.6,
+              text: 'Your town is able to hit you before you disapear over the horizon dealing some damage',
+              options: [
+                {
+                        text: 'Continue',
+                        nextScene: 1.7
+                    },
+              ]
+          },
+          {
+              id:1.7,
               text: 'After just a few days on the old rickety ship you hear an alarming siren that wakes you in the night. You rush to your feet and go up to the top deck to see what the comosion is. "Shes coming!" screams the captain "Shes coming for me!". Moments later you feel the ship get rattled by what you can only guess to be a large creature. Make a dex saving throw.',
               options: [
                 {
                         text: 'Roll Dice',
-                        nextScene: 1.0,
-                        dc:10
+                        nextScene: [1.8,1.9],
+                        dc:["other", 21]
+                    },
+              ]
+          },
+          {
+              id:1.8,
+              text: 'You succesfully keep your balance and stand ready to battle',
+              options: [
+                {
+                        text: 'Continue',
+                        nextScene: 1.9,
+                    },
+              ]
+          },
+          {
+              id:1.9,
+              text: 'You drank 1 too many beers before boarding the ship and are not able to stable your self sending you prone onto the ship',
+              options: [
+                {
+                        text: 'Continue',
+                        nextScene: 1.9,
                     },
               ]
           }
@@ -200,28 +276,50 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.Main-body{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    
+}
+.success1{
+    position: absolute;
+    top:20%;
+    left: opx;
+    z-index: 1;
+    width: 50%;
+    max-height:230px;
+}
+.failure1{
+    position: absolute;
+    top:22%;
+    z-index: 1;
+    width: 100%;
+    max-height:250px;
+}
 #diceBox{
     display: flex;
     justify-content: center;
-    flex-flow: column nowrap;
     align-items: center;
 }
-#diceContainer{
-    height: 200px;
-}
+
 #mainText{
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .rollDice{
-    transform: rotate(2160deg);
-    transition-duration: 3s;
-    
+    transform: rotate(3600deg);
+    transition-duration: 4000ms;
 }
-.die{
-    background-image: url('../../public/d20-red-trans (1).png') ;
+.staticDice{
+    background-image: url('../../public/D20_die_roll.png') ;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+}
+.die{
+    
     width: 130px;
     height: 130px;
     color: white;
@@ -234,7 +332,8 @@ export default {
     font-family: sans-serif;
     font-size: large;
     text-align: center;
-    padding-top: 40%;
+    padding-top: 49%;
+    padding-right:6%;
 }
 .container{
     width: 800px;
@@ -249,6 +348,7 @@ export default {
 .button-grid {
     display: flex;
     flex-flow: row wrap;
+    width: 800px;
     justify-content: space-around;
     margin-top: 10px;
 }
@@ -260,6 +360,7 @@ export default {
     padding: 5px 10px;
     color: white;
     outline: none;
+    z-index: 7;
 }
 .btn:hover {
     border-color: black;
