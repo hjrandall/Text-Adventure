@@ -1,11 +1,14 @@
 <template>
     <div id="header" >
+      <div class="flexyBoy">
+        <div id="inventory" class="base">
+          <div v-show="inventory.gold" id="gold">{{ inventory.gold }}</div>
+  
+        </div >
+        <img id="bag" src="brown_bag.png"  alt="brown bag" width="70" height="70">
+      </div>
       <div class="base">
-        <div v-show="inventory.gold" id="gold">{{ inventory.gold }}</div>
-
-      </div >
-      <div class="base">
-        <div id="ac">16</div>
+        <div id="ac">15</div>
         <div class="health-bar">
             <div class="health" :style="{ width: healthPercentage }"></div>
         </div>
@@ -31,7 +34,7 @@
     methods:{
   },computed: {
     healthPercentage() {
-      return `${(this.currentHealth / this.maxHealth) * 98.3}%`;
+      return `${(this.currentHealth / this.maxHealth) * 100}%`;
     }
   },
     data(){
@@ -43,6 +46,20 @@
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
+  *{
+    font-family: "MedievalSharp", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: large;
+  }
+  #bag{
+    margin-top: 30px;
+    margin-left: -20px;
+  }
+  .flexyBoy{
+    display: flex;
+    flex: row nowrap;
+  }
   #header{
     display: flex;
     flex: row nowrap;
@@ -63,15 +80,15 @@
   width: 500px; /* Adjust this width according to your design */
   height: 40%; /* Adjust height if needed */
   margin-top: 5%;
-  margin-right: 10px;
+  margin-right: 5px;
   overflow: hidden; /* Hide overflow */
 }
 .health{
   height: 38%;
   margin-top: 3px;
   margin-left: 9px;
-  margin-right: 8px;
-  background-color: green; /* Change color based on your preference */
+  margin-right: 5px;
+  background-color: #5F3B2B; /* Change color based on your preference */
 }
 #ac{
     height: 60%; /* Adjust height if needed */
@@ -86,6 +103,22 @@
     font-size:x-large;
     padding-top: 10px;
     padding-right: 2px;
+}
+#gold{
+  background-image: url('../../public/gold_coins.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width:50px ;
+    text-align: center;
+    padding-top: 35px;
+
+}
+#inventory{
+  border: black double 4px;
+  border-radius: 5px;
+  margin-left: 5px;
+  margin-top: 5px;
 }
   </style>
   

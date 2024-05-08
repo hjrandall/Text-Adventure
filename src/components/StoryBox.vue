@@ -76,16 +76,17 @@ export default {
         const randomInclusive = Math.floor(Math.random() * (maxInclusive - minInclusive + 1)) + minInclusive;
         await this.timeout(3000);
         this.diceNum = randomInclusive
-        await this.timeout(1400);
+        await this.timeout(500);
         var dcCheck = false
+        var vid;
         if (dc[0]== "player AC"){
             if (randomInclusive <= (dc[1] + this.Character.AC)){
                 dcCheck = true
                 
-                let vid = document.getElementById("myVideo");
+                vid = document.getElementById("myVideo");
                 vid.play()
             }else{
-                let vid = document.getElementById("myVideo2");
+            vid = document.getElementById("myVideo2");
                 vid.play()
             }
         }
@@ -93,16 +94,17 @@ export default {
              if (randomInclusive >= dc[1]){
                 dcCheck =true
 
-                let vid = document.getElementById("myVideo");
+                vid = document.getElementById("myVideo");
                 vid.play()
             }
             else{
-                let vid = document.getElementById("myVideo2");
+                vid = document.getElementById("myVideo2");
                 vid.play()
             }
         }
         
-        await this.timeout(2500);
+        await this.timeout(3000);
+        vid.currentTime = 0
         return dcCheck
     },
     timeout(ms) {
@@ -112,7 +114,7 @@ export default {
   data(){
         return {
           Character : {maxHealth: 20,currentHealth:20,AC: 16,},
-          Inventory : {gold: 10},
+          Inventory : {gold: 100},
           diceNum: 20,
           success:false,
           failure:false,
@@ -244,7 +246,7 @@ export default {
                 {
                         text: 'Roll Dice',
                         nextScene: [1.8,1.9],
-                        dc:["other", 21]
+                        dc:["other", 10]
                     },
               ]
           },
@@ -287,7 +289,7 @@ export default {
 .success1{
     position: absolute;
     top:20%;
-    left: opx;
+    left: 0;
     z-index: 1;
     width: 50%;
     max-height:230px;
@@ -306,14 +308,14 @@ export default {
 }
 
 #mainText{
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family:Georgia, 'Times New Roman', Times, serif
 }
 .rollDice{
     transform: rotate(3600deg);
     transition-duration: 4000ms;
 }
 .staticDice{
-    background-image: url('../../public/D20_die_roll.png') ;
+    background-image: url('../../public/blue_d20.png') ;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -323,46 +325,80 @@ export default {
     width: 130px;
     height: 130px;
     color: white;
-    font-family: sans-serif;
+    font-family: 'medival';
     font-size: large;
     text-align: center;
 }
 .dieText{
     color: white;
-    font-family: sans-serif;
-    font-size: large;
+    font-family: "MedievalSharp", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.6rem;
     text-align: center;
-    padding-top: 49%;
-    padding-right:6%;
+    padding-top: 43%;
 }
 .container{
-    width: 800px;
-    background-color: white;
+    max-width: 700px;
+    min-width: 400px;
+    background-color: rgba(224, 205, 103, .85);
     padding: 10px;
-    margin-bottom: 20px;
+    margin: 20px;
+    border:solid;
     border-radius: 5px;
-    box-shadow: 0 0 10px 2px;
+    border-color: #5F3B2B;
+    border-width: 2px;
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.7);
     text-align: center;
+    color: #131312 ;
+    line-height: 1.8rem;
 }
 
 .button-grid {
     display: flex;
     flex-flow: row wrap;
-    width: 800px;
     justify-content: space-around;
     margin-top: 10px;
 }
 
 .btn {
-    background-color: hsl(200, 100%, 50%);
-    border: 1px solid hsl(200, 100%, 50%);
-    border-radius: 5px ;
+    position: relative; /* Required for the pseudo-element */
+    background-color: rgba(0, 0, 0, 0.85);
+    border-radius: 5px;
+    border:black .1px solid;
     padding: 5px 10px;
     color: white;
     outline: none;
+    margin-right: 15px;
     z-index: 7;
+    font-family: "MedievalSharp", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: large;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 10px;
 }
-.btn:hover {
-    border-color: black;
+
+.btn::before {
+    content: '';
+    position: absolute;
+    border: none; /* Reset border */
+    outline: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../public/fire.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    transition: opacity .7s ease-in-out;
+    z-index: -1; /* Ensure the pseudo-element is behind the button content */
+}
+
+.btn:hover::before {
+    opacity: 1;
 }
 </style>
