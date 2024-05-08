@@ -3,9 +3,9 @@
       <div class="flexyBoy">
         <div id="inventory" class="base">
           <div v-show="inventory.gold" id="gold">{{ inventory.gold }}</div>
-  
+          <img src="/battleAxe.png" alt="battle axe">
         </div >
-        <img id="bag" src="brown_bag.png"  alt="brown bag" width="70" height="70">
+        <img id="bag" src="brown_bag.png"  alt="brown bag" width="55" height="55">
       </div>
       <div class="base">
         <div id="ac">15</div>
@@ -34,7 +34,11 @@
     methods:{
   },computed: {
     healthPercentage() {
-      return `${(this.currentHealth / this.maxHealth) * 100}%`;
+      var multiplyer = 97
+      if(window.innerWidth < 1000){
+        multiplyer = 98.5
+      }
+      return `${(this.character.currentHealth / this.character.maxHealth) * multiplyer}%`;
     }
   },
     data(){
@@ -53,7 +57,7 @@
     font-size: large;
   }
   #bag{
-    margin-top: 30px;
+    margin-top: 60px;
     margin-left: -20px;
   }
   .flexyBoy{
@@ -88,7 +92,7 @@
   margin-top: 3px;
   margin-left: 9px;
   margin-right: 5px;
-  background-color: #5F3B2B; /* Change color based on your preference */
+  background-color: #618f39; /* Change color based on your preference */
 }
 #ac{
     height: 60%; /* Adjust height if needed */
@@ -120,5 +124,18 @@
   margin-left: 5px;
   margin-top: 5px;
 }
+@media screen and (max-width: 1000px) {
+  .health-bar{
+    width: 350px;
+    
+  }
+  .health{
+    height: 30%;
+    margin-top: 7px;
+    margin-left: 3px;
+    margin-right: 2px;
+  }
+}
+
   </style>
   
