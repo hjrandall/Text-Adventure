@@ -3,7 +3,7 @@
       <div class="flexyBoy">
         <div id="inventory" class="base">
           <div v-show="inventory.gold" id="gold">{{ inventory.gold }}</div>
-          <img src="/battleAxe.png" alt="battle axe">
+          <img v-show="inventory.axe" src="/battleAxe.png" alt="battle axe">
         </div >
         <img id="bag" src="brown_bag.png"  alt="brown bag" width="55" height="55">
       </div>

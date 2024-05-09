@@ -114,7 +114,7 @@
     data(){
           return {
             character : {maxHealth: 20,currentHealth:20,AC: 16,},
-            Inventory : {gold: 10},
+            Inventory : {gold: 10,axe:true},
             diceNum: 20,
             success:false,
             failure:false,
@@ -199,7 +199,7 @@
                 options: [
                     {
                         text: 'Continue',
-                        nextScene: 1.6
+                        nextScene: 1.7
                     },
                 ]
             },
