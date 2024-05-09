@@ -1,6 +1,6 @@
 <template>
     <div id="homePage">
-      <img src="/dragoncon.png" alt="battle axe" width="550px" height="550px">
+      <img src="/dragoncon.png" alt="battle axe" width="450px" height="450px">
     <nav>
         <button class="campaigns" @click="router.push({name:'TheNewWorld'})">The new world</button>
     </nav>

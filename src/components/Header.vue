@@ -8,7 +8,7 @@
         <img id="bag" src="brown_bag.png"  alt="brown bag" width="55" height="55">
       </div>
       <div class="base">
-        <div id="ac">15</div>
+        <div id="ac">{{ this.character.AC }}</div>
         <div class="health-bar">
             <div class="health" :style="{ width: healthPercentage }"></div>
         </div>
@@ -37,6 +37,9 @@
       var multiplyer = 97
       if(window.innerWidth < 1000){
         multiplyer = 98.5
+      }
+      if(this.character.currentHealth <=0){
+        return '0%'
       }
       return `${(this.character.currentHealth / this.character.maxHealth) * multiplyer}%`;
     }
