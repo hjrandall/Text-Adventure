@@ -319,51 +319,165 @@
                 options: [
                         {
                           text: 'Attack with great axe',
-                          nextScene: [2.1,2.1,2.3],
+                          nextScene: [2.1,2.2,2.3],
                           dc:{against:"enemy",
-                                dc: 12,
+                                dc: 8 ,
                                 health:10, 
                                 name: "Giant Squid"
                             }
                       },
                       {
                           text: 'Ready an action',
-                          nextScene: 1.0,
+                          nextScene: 2.4,
                           
                       },
                       {
                           text: 'Go back to bed',
-                          nextScene: 1.0,
+                          nextScene: 2.5,
                         
                       }
                 ]
             },
             {
                 id:2.1,
-                text: 'With your great axe in hand you slam it down on one of the tentacles and slice right through it dealing damage to the giant squid. The squid sreiks in pain as it raises one of its tentacles and swipes at you',
+                text: 'With your great axe in hand you slam it down dealing damage to the giant squid. The squid sreiks in pain as it raises one of its tentacles and swipes at you in retaliation',
                 options: [
                         {
                           text: 'limbo underneath the tentacle swipe',
-                          nextScene: [2,2],
+                          nextScene: [2.11,2.12],
                           dc: { against:"player",
                                 dc: 1,
                                 diceDamage:1
                             }
                       },
                       {
-                          text: 'Embrace the tentacle',
-                          nextScene: [2,2],
+                          text: 'Hunker down',
+                          nextScene: [2.13,2.14],
                           dc: { against:"player",
                                 dc: 0,
                                 diceDamage:1
                             }
                           
                       },
+                    ]
+                    },{
+                id:2.11,
+                text: 'All those years as the towns raining limbo champion comes in handy as you dodge the squids attack. You now stand ready to take an action.',
+                options: [
+                        {
+                          text: 'Attack with great axe',
+                          nextScene: [2.1,2.2,2.3],
+                          dc:{against:"enemy",
+                                dc: 8 ,
+                                health:10, 
+                                name: "Giant Squid"
+                            }
+                      },
                       {
-                          text: 'Hunker down',
-                          nextScene: [2,2],
+                          text: 'climb onto a tentacle, run up to the head of the squid, leap into the air and strike the squid in the eye ',
+                          nextScene: [2.1,2.2,2.3],
+                          dc:{against:"enemy",
+                                dc: 8 ,
+                                health:10, 
+                                name: "Giant Squid"
+                            }
+                          
+                      },
+                      
+                ]
+            },{
+                id:2.12,
+                text: 'You didnt quite go low enough and get slammed by the squids tentacle taking damage. You brush off the squid goo, pick yourself off the floor and stand ready to take an action.',
+                options: [
+                        {
+                          text: 'Attack with great axe',
+                          nextScene: [2.1,2.2,2.3],
+                          dc:{against:"enemy",
+                                dc: 8 ,
+                                health:10, 
+                                name: "Giant Squid"
+                            }
+                      },
+                      {
+                          text: 'climb onto a tentacle run up to the head of the squid leap into the air and strike the squid in the eye ',
+                          nextScene: [2.1,2.2,2.3],
+                          dc:{against:"enemy",
+                                dc: 8 ,
+                                health:10, 
+                                name: "Giant Squid"
+                            }
+                          
+                      },
+                      
+                ]
+            },{
+                id:2.13,
+                text: 'You hunker down and are able to deflect the squids tentacle and now stand ready to take an action',
+                options: [
+                        {
+                          text: 'Attack with great axe',
+                          nextScene: [2.1,2.2,2.3],
+                          dc:{against:"enemy",
+                                dc: 8 ,
+                                health:10, 
+                                name: "Giant Squid"
+                            }
+                      },
+                      {
+                          text: 'climb onto a tentacle, run up to the head of the squid, leap into the air and strike the squid in the eye ',
+                          nextScene: [2.1,2.2,2.3],
+                          dc:{against:"enemy",
+                                dc: 8 ,
+                                health:10, 
+                                name: "Giant Squid"
+                            }
+                          
+                      },
+                      
+                ]
+            },{
+                id:2.14,
+                text: 'You hunker down but the squid clips your legs sending you flying to the side taking damage. You pick yourself back up, brush the dust off and with a stern look on your face you stand ready to take an action',
+                options: [
+                        {
+                          text: 'Attack with great axe',
+                          nextScene: [2.1,2.2,2.3],
+                          dc:{against:"enemy",
+                                dc: 8 ,
+                                health:10, 
+                                name: "Giant Squid"
+                            }
+                      },
+                      {
+                          text: 'climb onto a tentacle, run up to the head of the squid, leap into the air and strike the squid in the eye ',
+                          nextScene: [2.1,2.2,2.3],
+                          dc:{against:"enemy",
+                                dc: 8 ,
+                                health:10, 
+                                name: "Giant Squid"
+                            }
+                          
+                      },
+                      
+                ]
+            },
+            {
+                id:2.2,
+                text: 'You bring your great axe up into the air and slam it down barely missing the giant squid. The squid seems to chuckle as it swipes its tentacle at you in retaliation',
+                options: [
+                        {
+                          text: 'limbo underneath the tentacle swipe',
+                          nextScene: [2.11,2.12],
                           dc: { against:"player",
                                 dc: 1,
+                                diceDamage:1
+                            }
+                      },
+                      {
+                          text: 'Hunker down',
+                          nextScene: [2.13,2.14],
+                          dc: { against:"player",
+                                dc: 0,
                                 diceDamage:1
                             }
                           
@@ -372,17 +486,101 @@
             },
             {
                 id:2.3,
-                text: 'You defeated the squid!',
+                text: 'With your last blow to the squid with your great axe it seems to make the squid release its grip on the ship. You see the squids head slumps back until it slapps the face of the water. You rush over to the side of the boat and see the squid slowly drift into the abys. YOU KILLED THE SQUID!',
                 options: [
                         {
-                          text: 'limbo underneath the tentacle swipe',
-                          nextScene: [2,2],
-                          dc: { against:"player",
-                                dc: 1,
-                                diceDamage:1
-                            }
+                          text: 'Continue',
+                          nextScene: 2.31,
+                          
                       },
                       
+                ]
+            },
+            {
+                id:2.31,
+                text: '"Squidy!!!" screams the captain "You were too young!. The captain then comes over to you with tear filled eyes" how could you? How could you do that to squidy?!?!?"',
+                options: [
+                        {
+                          text: 'He kinda had it coming',
+                          nextScene: 2.32,
+                      },{
+                          text: 'My condolences captain',
+                          nextScene: 2.33,
+                      },{
+                          text: 'You knew that guy?',
+                          nextScene: 2.34,
+                      },     
+                ]
+            },
+            {
+                id:2.32,
+                text: 'The captain glares into your soul as anger fills his eyes. He stirnly walks over to you and puts his face close to yours to where you can feel his breath of your mouth. In a surprisingly gentle but strong voice the captain says "You know nothing about this majestic beast"',
+                options: [
+                        {
+                          text: 'If you like it so much why dont you dive in after it',
+                          nextScene: 2.34,
+                      },{
+                          text: 'I hit a nerve I am sorry, please do forgive',
+                          nextScene: 2.33,
+                      },  
+                ]
+            },
+            {
+                id:2.33,
+                text: 'The captain  extends both his arms out and embraces you. "Thank you, young scalywag" wept the captain" the captain lets go of you and slowly makes his way back to his chambers',
+                options: [
+                        {
+                          text: 'Continue',
+                          nextScene: 2.6,
+                      }    
+                ]
+            },
+            {
+                id:2.34,
+                text: '"SHE, SHE WAS MY FRINED!" bellowed the captain. In a sobbing rage the captains runs towards the end of the deck while screaming "Im coming for you!" he then leaps off the ship head first into the sea never to be seen again',
+                options: [
+                        {
+                          text: 'Continue',
+                          nextScene: 2.6,
+                      }    
+                ]
+            },
+            {
+                id:2.4,
+                text: 'You get into your fighting stance, both hands gripping your great axe. You stare the giant squid down for what seems to be an eternity when the captain calmy walks over to the squids head and begins to pet it. " this is squidy" the captain proudly states "she is here to take me away. I am done with my sailing life and im ready to settle down with squidy". Your jaw drops as you watch the captain hop on top of the squids head. the squid then releases the boat and slowly slumps back into the water. You look over the side of the ship to see that the captain is riding the squid as if it was a jet ski',
+                options: [
+                        {
+                          text: 'Cry happy tears for the captain',
+                          nextScene: 2.6,
+                      },
+                      {
+                          text: 'stand there in utter disbelief',
+                          nextScene: 2.6,
+                      }    
+                ]
+            },
+            {
+                id:2.5,
+                text: 'You really didnt want to fight today and are still a little grogy from being woke up from your slumber. You casually make your way down to your chambers and fall back asleep. A couple days later when you wake up from your nap you notice that the captain is no where to be found. Some say he went off to live with squid and others say he threw himself overboard. I guess you will never know',
+                options: [
+                        {
+                          text: 'Continue',
+                          nextScene: 2.6,
+                      }    
+                ]
+            },
+            {
+                id:2.6,
+                text: 'A week has passed sense the incident with the squid when you hear "Land hoooooooooooooooo!!!" the ship docks and you are greeting with a thick busy green forest with two faded path ways.One goin to the leftish and the other to the rightish',
+                options: [
+                        {
+                          text: 'go leftish',
+                          nextScene: 2.6,
+                      },
+                      {
+                          text: 'go rightish',
+                          nextScene: 2.6,
+                      }        
                 ]
             }
             ]
