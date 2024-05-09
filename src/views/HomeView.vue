@@ -1,6 +1,6 @@
 <template>
     <div id="homePage">
-      <img src="/dragoncon.png" alt="battle axe" width="450px" height="450px">
+      <img src="/dragoncon.png" alt="logo" width="550px" height="550px">
     <nav>
         <button class="campaigns" @click="router.push({name:'TheNewWorld'})">The new world</button>
     </nav>
@@ -50,7 +50,7 @@
       font-family: "MedievalSharp", cursive;
       font-weight: 400;
       font-style: normal;
-      font-size: 1.4rem;
+      font-size: 1.7rem;
       cursor: pointer;
       display: inline-block;
       margin-bottom: 10px;

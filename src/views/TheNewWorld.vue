@@ -3,6 +3,7 @@
       <characterSheet
           :character="character"
           :inventory="Inventory"
+          :Enemy="enemy"
           ></characterSheet>
       <div class="Main-body">
           <div  id="diceBox" >
@@ -59,8 +60,9 @@
       if (scene.nextScene == 0.1){
           nextsceneID = this.lastSceneID
       }
-      if (this.enemyHealth <=0 && this.enemyHealth> -110 ){
+      if (this.enemy.currentHealth && this.enemy.currentHealth <=0  ){
         nextsceneID = scene.nextScene[2]
+        this.enemy = {name: null,AC: null,maxHealth:null,currentHealth:null}
       }
       if (this.character.currentHealth<= 0){
         nextsceneID = 1.0
@@ -76,8 +78,14 @@
         return scene.requiredCharacter == null || scene.requiredCharacter(this.character)
       },
       async rollDice(dc){
-        if(dc.enemyHealth && this.enemyHealth == -111 ){
-            this.enemyHealth =  dc.enemyHealth
+        if(dc.health && this.enemy.name == null ){
+            this.enemy = {
+                name: dc.name,
+                AC: dc.dc,
+                maxHealth:dc.health,
+                currentHealth:dc.health
+            } 
+
             }
           this.rolling = true
           this.diceNum = null
@@ -114,11 +122,11 @@
   
                   vid = document.getElementById("myVideo");
                   vid.play()
-                if(dc.enemyHealth){
+                if(dc.health){
                     for( i=0; i<this.playerLevel; i++){
                         totalDamage += Math.floor(Math.random() * (6 - 1 + 1)) + 1;
                     }
-                    this.enemyHealth -= totalDamage
+                    this.enemy.currentHealth = this.enemy.currentHealth - totalDamage
             }
             
               }
@@ -145,8 +153,8 @@
             failure:false,
             rolling:false,
             lastSceneID:0,
-            enemyHealth:-111,
             playerLevel:1,
+            enemy:{name: null,AC: null,maxHealth:null,currentHealth:null} ,
             currentScene: {
                 id:0,
                 text: 'You are a young human barbarian who lives in a dying fishing town named Bayshore on the edge of the continent Valoria. Your town is on the verge of being taken by the Stoneheart Kingdom due to unpaid taxes. When all hope seems to be lost, one fisherman claims to have met people from a continent not yet discovered. He continues by saying there are treasures galore in the unknown world ripe for the taking. Your town gathers together to decide if they should send someone to discover the new world in hopes of returning with the funds needed to restore Bayshore to its old glory.',
@@ -311,10 +319,11 @@
                 options: [
                         {
                           text: 'Attack with great axe',
-                          nextScene: [2.1,2.2,2.3],
+                          nextScene: [2.1,2.1,2.3],
                           dc:{against:"enemy",
                                 dc: 12,
-                                enemyHealth:10, 
+                                health:10, 
+                                name: "Giant Squid"
                             }
                       },
                       {
@@ -330,14 +339,50 @@
                 ]
             },
             {
-                id:2.3,
-                text: 'Woooweee you did it',
+                id:2.1,
+                text: 'With your great axe in hand you slam it down on one of the tentacles and slice right through it dealing damage to the giant squid. The squid sreiks in pain as it raises one of its tentacles and swipes at you',
                 options: [
                         {
-                          text: 'dance',
-                          nextScene: [2.1,2.2,2.3],
+                          text: 'limbo underneath the tentacle swipe',
+                          nextScene: [2,2],
+                          dc: { against:"player",
+                                dc: 1,
+                                diceDamage:1
+                            }
+                      },
+                      {
+                          text: 'Embrace the tentacle',
+                          nextScene: [2,2],
+                          dc: { against:"player",
+                                dc: 0,
+                                diceDamage:1
+                            }
                           
                       },
+                      {
+                          text: 'Hunker down',
+                          nextScene: [2,2],
+                          dc: { against:"player",
+                                dc: 1,
+                                diceDamage:1
+                            }
+                          
+                      },
+                ]
+            },
+            {
+                id:2.3,
+                text: 'You defeated the squid!',
+                options: [
+                        {
+                          text: 'limbo underneath the tentacle swipe',
+                          nextScene: [2,2],
+                          dc: { against:"player",
+                                dc: 1,
+                                diceDamage:1
+                            }
+                      },
+                      
                 ]
             }
             ]
@@ -358,7 +403,7 @@
   }
   .success1{
       position: absolute;
-      top:20%;
+      top:17%;
       left: 25%;
       z-index: 1;
       width: 50%;
@@ -366,7 +411,7 @@
   }
   .failure1{
       position: absolute;
-      top:22%;
+      top:16%;
       z-index: 1;
       width: 100%;
       max-height:250px;
@@ -378,7 +423,8 @@
   }
   
   #mainText{
-    font-family:Georgia, 'Times New Roman', Times, serif
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.7rem;
   }
   .rollDice{
       transform: rotate(3600deg);
@@ -429,6 +475,7 @@
       flex-flow: row wrap;
       justify-content: space-around;
       margin-top: 10px;
+      width: 60%;
   }
   
   .btn {
@@ -439,12 +486,12 @@
       padding: 5px 10px;
       color: white;
       outline: none;
-      margin-right: 15px;
+     
       z-index: 7;
       font-family: "MedievalSharp", cursive;
       font-weight: 400;
       font-style: normal;
-      font-size: large;
+      font-size: 1.7rem;
       cursor: pointer;
       display: inline-block;
       margin-bottom: 10px;

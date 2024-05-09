@@ -7,11 +7,26 @@
         </div >
         <img id="bag" src="brown_bag.png"  alt="brown bag" width="55" height="55">
       </div>
-      <div class="base">
-        <div id="ac">{{ this.character.AC }}</div>
-        <div class="health-bar">
-            <div class="health" :style="{ width: healthPercentage }"></div>
+      <div>
+        <div class="base">
+          <div id="ac">{{ this.character.AC }}</div>
+          <div>
+            <h1>Young barbarian(you)</h1>
+            <div class="health-bar">
+                <div class="health" :style="{ width: characterHealthPercentage }"></div>
+              </div>
+          </div>
         </div>
+        <div v-show="this.Enemy.name" class="base">
+          <div id="ac">12</div>
+          <div>
+            <h1>{{ this.Enemy.name }}</h1>
+            <div class="health-bar">
+                <div class="health" :style="{ width: enemyHealthPercentage }"></div>
+              </div>
+          </div>
+      </div>
+
       </div>
     </div>
 </template>
@@ -29,11 +44,15 @@
             type: Object,
             required: true
         },
+        Enemy:{
+          type: Object,
+          required:true
+        }
         
     },
     methods:{
   },computed: {
-    healthPercentage() {
+    characterHealthPercentage() {
       var multiplyer = 97
       if(window.innerWidth < 1000){
         multiplyer = 98.5
@@ -42,6 +61,16 @@
         return '0%'
       }
       return `${(this.character.currentHealth / this.character.maxHealth) * multiplyer}%`;
+    },
+    enemyHealthPercentage() {
+      var multiplyer = 97
+      if(window.innerWidth < 1000){
+        multiplyer = 98.5
+      }
+      if(this.Enemy.currentHealth <=0){
+        return '0%'
+      }
+      return `${(this.Enemy.currentHealth / this.Enemy.maxHealth) * multiplyer}%`;
     }
   },
     data(){
@@ -58,6 +87,16 @@
     font-weight: 400;
     font-style: normal;
     font-size: large;
+  }
+  h1{
+    border: 2px solid #ffffff; /* Border color */
+    border-radius: 5px; /* Border radius */
+    padding: 5px 10px; /* Padding around the title */
+    background-color: rgba(0, 0, 0, 0.5); /* Background color with transparency */
+    color: #ffffff; /* Text color */
+    display: inline-block;
+    margin-left: 5px;
+    margin-bottom: 0;
   }
   #bag{
     margin-top: 60px;
@@ -86,7 +125,6 @@
     background-position: center;
   width: 500px; /* Adjust this width according to your design */
   height: 40%; /* Adjust height if needed */
-  margin-top: 5%;
   margin-right: 5px;
   overflow: hidden; /* Hide overflow */
 }
@@ -100,7 +138,7 @@
 #ac{
     height: 60%; /* Adjust height if needed */
     width: 50px;
-    margin-top: 3%;
+    margin-top: 7%;
     background-image: url('../../public/shield.png');
     background-size: contain;
     background-repeat: no-repeat;
