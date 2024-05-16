@@ -555,7 +555,7 @@
                       },
                       {
                           text: 'stand there in utter disbelief',
-                          nextScene: 2.6,
+                          nextScene: 2.61,
                       }    
                 ]
             },
@@ -565,21 +565,83 @@
                 options: [
                         {
                           text: 'Continue',
-                          nextScene: 2.6,
+                          nextScene: 2.7,
                       }    
                 ]
             },
             {
                 id:2.6,
-                text: 'A week has passed sense the incident with the squid when you hear "Land hoooooooooooooooo!!!" the ship docks and you are greeting with a thick busy green forest with two faded path ways.One goin to the leftish and the other to the rightish',
+                text: 'You begin to cry tears of joy for the captain when a crewmate comes and smacks up on the back side of your head and says "man up, weve got work to do". You gather your senses and get back to work"',
                 options: [
                         {
-                          text: 'go leftish',
-                          nextScene: 2.6,
+                          text: 'Continue',
+                          nextScene: 2.7,
+                      }        
+                ]
+            },
+            {
+                id:2.61,
+                text: 'You stand there in utter disbelief as you watch the captain lovingly caress and ride the squid off into the distance. You look around to the other crew mates and see they are all also in disbelief. It takes till the sun sets for you to come to you senses and get back to work.',
+                options: [
+                        {
+                          text: 'Continue',
+                          nextScene: 2.7,
+                      }       
+                ]
+            },
+            {
+                id:2.7,
+                text: 'A week has passed since the incident with the squid when you hear "Land hoooooooooooooooo!!!" the ship docks and you are greeted with a thick busy green forest with two faded path ways.One going north west and the other north east',
+                options: [
+                        {
+                          text: 'go north west',
+                          nextScene: 2.8,
                       },
                       {
-                          text: 'go rightish',
-                          nextScene: 2.6,
+                          text: 'go north east',
+                          nextScene: 2.9,
+                      }        
+                ]
+            },
+            {
+                id:2.8,
+                text: 'You walk down the beaten path leading north west when you come to an opening in the forest. Ahead of you in the middle of the opening lies 3 pedestals neatly placed next to each other with a chest upon each one. On both ends are a stone column with writing on them and behind it all a huge over hanging tree. A little bit farther north you see the trail continue and bends east',
+                options: [
+                        {
+                          text: 'approach the pedestals',
+                          nextScene: 2.81,
+                      },
+                      {
+                          text: 'follow the trail east',
+                          nextScene: 3.0,
+                      }        
+                ]
+            },
+            {
+                id:2.9,
+                text: 'You walk down the beaten path leading north east and notice that the forest begins to thin out. Up ahead you see what seems to be a small stream that leads into an opening in the side of the mountain. Also farther north you se the trail continue and bend west.',
+                options: [
+                        {
+                          text: 'Follow the stream into the cave',
+                          nextScene: 2.91,
+                      },
+                      {
+                          text: 'follow the trail west',
+                          nextScene: 3.0,
+                      }        
+                ]
+            },
+            {
+                id:3.0,
+                text: 'As you continue down the trail you find your self in a very run down cemetery. What used to be neat rows of head stones now only consist of broken pieces of coffins and head stones strewn across the ground. Just north of you there a wall that stretches west and east farther than you can see and at the center is a door.',
+                options: [
+                        {
+                          text: 'Desecrate the graves even more and search them',
+                          nextScene: 2.91,
+                      },
+                      {
+                          text: 'approach the door',
+                          nextScene: 3.0,
                       }        
                 ]
             }
