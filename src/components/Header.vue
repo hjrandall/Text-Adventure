@@ -3,6 +3,7 @@
       <div class="flexyBoy">
         <div id="inventory" class="base">
           <div v-show="inventory.gold" id="gold">{{ inventory.gold }}</div>
+          <div v-show="inventory.bronze_key" id="bronze_key">{{ inventory.bronze_key }}</div>
           <img v-show="inventory.axe" src="/battleAxe.png" alt="battle axe">
         </div >
         <img id="bag" src="brown_bag.png"  alt="brown bag" width="55" height="55">
@@ -158,6 +159,15 @@
     text-align: center;
     padding-top: 35px;
 
+}
+#bronze_key{
+    background-image: url('../../public/Bronze_key.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width:50px ;
+    text-align: center;
+    padding-top: 35px;
 }
 #inventory{
   border: black double 4px;

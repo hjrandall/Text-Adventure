@@ -56,6 +56,10 @@
       }
       if (scene.setCharacter){
           this.character = Object.assign(this.character, scene.setCharacter)
+          
+      }
+      if (scene.setInventory){
+          this.Inventory = Object.assign(this.Inventory, scene.setInventory)
       }
       if (scene.nextScene == 0.1){
           nextsceneID = this.lastSceneID
@@ -108,7 +112,30 @@
               }else{
                   vid = document.getElementById("myVideo2");
                   vid.play()
-                  for( i=0; i<dc.diceDamage; i++){
+                  for( i=0; i<dc.num_of_dice; i++){
+                        totalDamage += Math.floor(Math.random() * (6 - 1 + 1)) + 1;  
+                }
+               
+                this.character.currentHealth = this.character.currentHealth - totalDamage
+                
+              }
+          }
+          else if (dc.against == "dex"){
+              if (randomInclusive >= (dc.dc)){
+                  dcCheck = true
+                  
+                  vid = document.getElementById("myVideo");
+                  vid.play()
+                  for( i=0; i<(Math.floor(dc.num_of_dice /2)); i++){
+                        totalDamage += Math.floor(Math.random() * (6 - 1 + 1)) + 1;  
+                }
+               
+                this.character.currentHealth = this.character.currentHealth - totalDamage
+                
+              }else{
+                  vid = document.getElementById("myVideo2");
+                  vid.play()
+                  for( i=0; i<dc.num_of_dice; i++){
                         totalDamage += Math.floor(Math.random() * (6 - 1 + 1)) + 1;  
                 }
                
@@ -156,18 +183,17 @@
             playerLevel:1,
             enemy:{name: null,AC: null,maxHealth:null,currentHealth:null} ,
             currentScene: {
-                id:0,
-                text: 'You are a young human barbarian who lives in a dying fishing town named Bayshore on the edge of the continent Valoria. Your town is on the verge of being taken by the Stoneheart Kingdom due to unpaid taxes. When all hope seems to be lost, one fisherman claims to have met people from a continent not yet discovered. He continues by saying there are treasures galore in the unknown world ripe for the taking. Your town gathers together to decide if they should send someone to discover the new world in hopes of returning with the funds needed to restore Bayshore to its old glory.',
+                id:2.8,
+                text: 'You walk down the beaten path leading north west when you come to an opening in the forest. Ahead of you in the middle of the opening lies 3 pedestals neatly placed next to each other with a chest upon each one. On both ends are a stone column with writing on them and behind it all a huge over hanging tree. A little bit farther north you see the trail continue and bends east',
                 options: [
-                    {
-                        text: 'Volunteer to venture to the new world.',
-                        nextScene:1.1
-                    },
-                    {
-                        text: 'Stay quiet and do nothing.',
-                        nextScene: 1.2
-                    }
-  
+                        {
+                          text: 'approach the pedestals',
+                          nextScene: 2.81,
+                      },
+                      {
+                          text: 'follow the trail east',
+                          nextScene: 3.0,
+                      }        
                 ]
             },
             sceneNodes : [
@@ -247,7 +273,7 @@
                         nextScene: [1.5,1.6],
                         dc: {   against:"player",
                                 dc: 2,
-                                diceDamage:1
+                                num_of_dice:1
                             }
                     },
                     {
@@ -255,7 +281,7 @@
                         nextScene: [1.5,1.6],
                         dc: {   against:"player",
                                 dc: 0,
-                                diceDamage:1
+                                num_of_dice:1
                             }
                     },
                 ]
@@ -347,7 +373,7 @@
                           nextScene: [2.11,2.12],
                           dc: { against:"player",
                                 dc: 1,
-                                diceDamage:1
+                                num_of_dice:1
                             }
                       },
                       {
@@ -355,7 +381,7 @@
                           nextScene: [2.13,2.14],
                           dc: { against:"player",
                                 dc: 0,
-                                diceDamage:1
+                                num_of_dice:1
                             }
                           
                       },
@@ -470,7 +496,7 @@
                           nextScene: [2.11,2.12],
                           dc: { against:"player",
                                 dc: 1,
-                                diceDamage:1
+                                num_of_dice:1
                             }
                       },
                       {
@@ -478,7 +504,7 @@
                           nextScene: [2.13,2.14],
                           dc: { against:"player",
                                 dc: 0,
-                                diceDamage:1
+                                num_of_dice:1
                             }
                           
                       },
@@ -604,6 +630,20 @@
                 ]
             },
             {
+                id:2.71,
+                text: 'You are back to where you docked the ship',
+                options: [
+                    {
+                          text: 'go north west',
+                          nextScene: 2.8,
+                      },
+                      {
+                          text: 'go north east',
+                          nextScene: 2.9,
+                      }      
+                ]
+            },
+            {
                 id:2.8,
                 text: 'You walk down the beaten path leading north west when you come to an opening in the forest. Ahead of you in the middle of the opening lies 3 pedestals neatly placed next to each other with a chest upon each one. On both ends are a stone column with writing on them and behind it all a huge over hanging tree. A little bit farther north you see the trail continue and bends east',
                 options: [
@@ -615,6 +655,53 @@
                           text: 'follow the trail east',
                           nextScene: 3.0,
                       }        
+                ]
+            },
+            {
+                id:2.81,
+                text: 'You approach the pedestals and see that the three chest are numbered 1, 2 and 3. On one column it reads "all three chest have a key, two of them opens the gates of death and the other to heaven." while the other reads "Im neither lone nor crowded tight, im in the first of even crew"',
+                options: [
+                        {
+                          text: 'Open chest 1',
+                          nextScene: 2.82,
+                      },
+                      {
+                          text: 'Open chest 2',
+                          nextScene: 2.83,
+                          setInventory:{bronze_key: 1}
+                      },
+                      {
+                          text: 'Open chest 3',
+                          nextScene: 2.82,
+                      },    
+                ]
+            },
+            {
+                id:2.82,
+                text: 'You slowly open up The chest when you hear a "click" and a huge explosion goes off in the chest. make a dex saving throw',
+                options: [
+                        {
+                          text: 'Roll Dice',
+                          nextScene: [2.84,2.85],
+                          dc:{  against:"dex",
+                                dc: 15,
+                                num_of_dice:5
+                            }
+                      }   
+                ]
+            },
+            {
+                id:2.83,
+                text: 'You slowly open the chest and find inside a bronze key!',
+                options: [
+                        {
+                          text: 'go back south',
+                          nextScene: 2.71,
+                      },
+                      {
+                          text: 'go north east',
+                          nextScene: 2.83,
+                      } 
                 ]
             },
             {

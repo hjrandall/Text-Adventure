@@ -54,6 +54,7 @@
       cursor: pointer;
       display: inline-block;
       margin-bottom: 10px;
+      margin-left: 25px;
   }
   
   .campaigns::before {
