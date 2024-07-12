@@ -167,7 +167,7 @@
     background-position: center;
     width:50px ;
     text-align: center;
-    padding-top: 35px;
+    padding-top: 45px;
 }
 #inventory{
   border: black double 4px;

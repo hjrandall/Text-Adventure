@@ -59,7 +59,22 @@
           
       }
       if (scene.setInventory){
-          this.Inventory = Object.assign(this.Inventory, scene.setInventory)
+        if(scene.setInventory.name){
+            if(scene.setInventory.name in this.Inventory){
+                var newValue = this.Inventory[scene.setInventory.name] + scene.setInventory.quantity
+                var KeyName = scene.setInventory.name
+                this.Inventory = Object.assign(this.Inventory,{[KeyName]: newValue} )
+            }
+            else{
+            this.Inventory = Object.assign(this.Inventory,scene.setInventory.value )
+        }
+        }
+        else{
+            this.Inventory = Object.assign(this.Inventory,scene.setInventory.value )
+        }
+      }
+      if (scene.setEnvironment){
+          this.Environment = Object.assign(this.Environment, scene.setEnvironment)
       }
       if (scene.nextScene == 0.1){
           nextsceneID = this.lastSceneID
@@ -79,7 +94,19 @@
   
       },
       showOption(scene){
-        return scene.requiredCharacter == null || scene.requiredCharacter(this.character)
+        var showOption = true
+        if(scene.requiredCharacter != null){
+            console.log("her i am character")
+            showOption = scene.requiredCharacter(this.character)
+        }
+        else if(scene.requiredInventory != null){
+            console.log("her i am inventory")
+            showOption = scene.requiredInventory(this.Inventory)
+        }
+        else if (scene.requiredEnvironment != null){
+            showOption = scene.requiredEnvironment(this.Environment)
+        }
+        return showOption
       },
       async rollDice(dc){
         if(dc.health && this.enemy.name == null ){
@@ -175,6 +202,7 @@
           return {
             character : {maxHealth: 20,currentHealth:20,AC: 15,},
             Inventory : {gold: 10,axe:true},
+            Environment : {chest1: true, chest2: true, chest3: true, chest4: true,},
             diceNum: 20,
             success:false,
             failure:false,
@@ -654,7 +682,11 @@
                       {
                           text: 'follow the trail east',
                           nextScene: 3.0,
-                      }        
+                      },
+                      {
+                          text: 'go back south',
+                          nextScene: 2.71,
+                      },      
                 ]
             },
             {
@@ -664,16 +696,36 @@
                         {
                           text: 'Open chest 1',
                           nextScene: 2.82,
+                          setEnvironment:{chest1:false},
+                          requiredEnvironment: function(environment){
+                            return environment.chest1
+                          },
                       },
                       {
                           text: 'Open chest 2',
                           nextScene: 2.83,
-                          setInventory:{bronze_key: 1}
+                         setInventory:{name: "bronze_key", quantity: 1, value: {bronze_key: 1}},
+                        setEnvironment:{chest2:false},
+                          requiredEnvironment: function(environment){
+                            return environment.chest2
+                          },
                       },
                       {
                           text: 'Open chest 3',
                           nextScene: 2.82,
-                      },    
+                          setEnvironment:{chest3: false},
+                          requiredEnvironment: function(environment){
+                            return environment.chest3
+                          },
+                      },
+                      {
+                          text: 'follow the trail east',
+                          nextScene: 3.0,
+                      },
+                      {
+                          text: 'go back south',
+                          nextScene: 2.71,
+                      },     
                 ]
             },
             {
@@ -694,14 +746,110 @@
                 id:2.83,
                 text: 'You slowly open the chest and find inside a bronze key!',
                 options: [
+                {
+                          text: 'Open chest 1',
+                          nextScene: 2.82,
+                          setEnvironment:{chest1:false},
+                          requiredEnvironment: function(environment){
+                            return environment.chest1
+                          },
+                      },
+                      {
+                          text: 'Open chest 3',
+                          nextScene: 2.82,
+                          setEnvironment:{chest3: false},
+                          requiredEnvironment: function(environment){
+                            return environment.chest3
+                          },
+                      },
                         {
                           text: 'go back south',
                           nextScene: 2.71,
                       },
                       {
                           text: 'go north east',
-                          nextScene: 2.83,
+                          nextScene: 3.0,
                       } 
+                ]
+            },
+            {
+                id:2.84,
+                text: 'the chest lets out a huge explosion but you where able to jump out of the way only taking half damage',
+                options: [
+                {
+                          text: 'Open chest 1',
+                          nextScene: 2.82,
+                          setEnvironment:{chest1:false},
+                          requiredEnvironment: function(environment){
+                            return environment.chest1
+                          },
+                      },
+                      {
+                          text: 'Open chest 2',
+                          nextScene: 2.83,
+                          setInventory:{name: "bronze_key", quantity: 1, value: {bronze_key: 1}},
+                          setEnvironment:{chest2:false},
+                          requiredEnvironment: function(environment){
+                            return environment.chest2
+                          },
+                      },
+                      {
+                          text: 'Open chest 3',
+                          nextScene: 2.82,
+                          setEnvironment:{chest3: false},
+                          requiredEnvironment: function(environment){
+                            return environment.chest3
+                          },
+                      },
+                        {
+                          text: 'go back south',
+                          nextScene: 2.71,
+                      },
+                      {
+                          text: 'go north east',
+                          nextScene: 3.0,
+                      },
+                    
+                ]
+            },
+            {
+                id:2.85,
+                text: 'the chest lets out a huge explosion and you fail to jump out of the way and take the full force of the explosion barely making it out alive',
+                options: [
+                {
+                          text: 'Open chest 1',
+                          nextScene: 2.82,
+                          setEnvironment:{chest1:false},
+                          requiredEnvironment: function(environment){
+                            return environment.chest1
+                          },
+                      },
+                      {
+                          text: 'Open chest 2',
+                          nextScene: 2.83,
+                          setInventory:{name: "bronze_key", quantity: 1, value: {bronze_key: 1}},
+                          setEnvironment:{chest2:false},
+                          requiredEnvironment: function(environment){
+                            return environment.chest2
+                          },
+                      },
+                      {
+                          text: 'Open chest 3',
+                          nextScene: 2.82,
+                          setEnvironment:{chest3: false},
+                          requiredEnvironment: function(environment){
+                            return environment.chest3
+                          },
+                      },
+                        {
+                          text: 'go back south',
+                          nextScene: 2.71,
+                      },
+                      {
+                          text: 'go north east',
+                          nextScene: 3.0,
+                      },
+                    
                 ]
             },
             {
@@ -715,7 +863,11 @@
                       {
                           text: 'follow the trail west',
                           nextScene: 3.0,
-                      }        
+                      },
+                      {
+                          text: 'go back south',
+                          nextScene: 2.71,
+                      },        
                 ]
             },
             {
