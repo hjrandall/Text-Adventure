@@ -12,7 +12,7 @@
         <div class="base">
           <div id="ac">{{ this.character.AC }}</div>
           <div>
-            <h1>Young barbarian(you)</h1>
+            <h1>{{this.character.name}}</h1>
             <div class="health-bar">
                 <div class="health" :style="{ width: characterHealthPercentage }"></div>
               </div>
@@ -92,7 +92,9 @@
   h1{
     border: 2px solid #ffffff; /* Border color */
     border-radius: 5px; /* Border radius */
-    padding: 5px 10px; /* Padding around the title */
+    padding-top: 2px;
+    padding-left: 2px;
+    padding-right: 2px; /* Padding around the title */
     background-color: rgba(0, 0, 0, 0.5); /* Background color with transparency */
     color: #ffffff; /* Text color */
     display: inline-block;

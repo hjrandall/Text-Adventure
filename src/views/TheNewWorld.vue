@@ -1,6 +1,7 @@
 <template>
     <div >
-      <characterSheet
+        <nameModal :getName="getName" @update-name="updateName"></nameModal>
+        <characterSheet
           :character="character"
           :inventory="Inventory"
           :Enemy="enemy"
@@ -30,15 +31,23 @@
   
   <script>
   import characterSheet from '../components/Header.vue'
+  import nameModal from '../components/name_modal.vue'
   
   export default {
     name: 'TheNewWorld',
     components:{
-      characterSheet
+      characterSheet,
+      nameModal
     },
     props: {
     },
     methods:{
+        updateName(name) {
+            console.log("new world")
+            this.character.name = name;
+            this.getName = false
+
+    },
      async changeScene(scene){
           var dcCheck
           var nextsceneID =scene.nextScene
@@ -200,10 +209,11 @@
   },
     data(){
           return {
-            character : {maxHealth: 20,currentHealth:20,AC: 15,},
+            character : {name: "...pending...", maxHealth: 20,currentHealth:20,AC: 15,},
             Inventory : {gold: 10,axe:true},
             Environment : {chest1: true, chest2: true, chest3: true, chest4: true,},
             diceNum: 20,
+            getName:false,
             success:false,
             failure:false,
             rolling:false,
